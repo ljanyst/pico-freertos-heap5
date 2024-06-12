@@ -19,7 +19,7 @@ extern void panic(const char *msg);
 
 static HeapRegion_t heap_regions[] = { { NULL, 0 }, { NULL, 0 } };
 
-static void init_heap()
+void freertos_init_heap5()
 {
     // Set by linker
     extern uint8_t __StackLimit;
@@ -47,7 +47,7 @@ void *_sbrk(int incr)
 void *__wrap_malloc(size_t size)
 {
     if (heap_regions[0].pucStartAddress == NULL) {
-        init_heap();
+        freertos_init_heap5();
     }
 
     return pvPortMalloc(size);
@@ -56,7 +56,7 @@ void *__wrap_malloc(size_t size)
 void *__wrap_calloc(size_t count, size_t size)
 {
     if (heap_regions[0].pucStartAddress == NULL) {
-        init_heap();
+        freertos_init_heap5();
     }
 
     return pvPortCalloc(count, size);
@@ -65,7 +65,7 @@ void *__wrap_calloc(size_t count, size_t size)
 void *__wrap_realloc(void *mem, size_t size)
 {
     if (heap_regions[0].pucStartAddress == NULL) {
-        init_heap();
+        freertos_init_heap5();
     }
 
     vPortFree(mem);
